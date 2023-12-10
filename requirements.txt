@@ -6,3 +6,4 @@ dash_mantine_components==0.12.0
 pandas==2.0.3
 gunicorn
 dash-tools
+openpyxl
