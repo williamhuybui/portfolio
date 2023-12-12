@@ -4,7 +4,10 @@ from modules.utilities import containerize_projects
 import dash_mantine_components as dmc
 
 page_layout = dbc.Container([
-    html.H1("Leave a Message"),
+    html.Div("Leave a Message", className = "page-title"),
+    html.Div("Thanks for visiting my website. I hope you find something interesting here.",
+                                 className = "page-description"),
+    html.Hr(),
     html.Div("Comment:"),
     dmc.Textarea(autosize=True, minRows=3),
     html.Div("Email:"),

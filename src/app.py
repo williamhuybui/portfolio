@@ -42,7 +42,7 @@ def display_page(pathname):
 
 @app.callback(
     Output('url', 'pathname'),
-    Input('tabs-content', 'value'))
+    Input('tabs-content', 'active_tab'))
 def nav_choice(tab):
     print(tab)
     if tab == 'about-tab':

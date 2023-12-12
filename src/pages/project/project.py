@@ -11,26 +11,45 @@ from helper import encode_image
 
 data = pd.read_excel('data/projects.xlsx')
 
+skill_options = sorted(list(set(item for sublist in data['techs'].apply(eval) for item in sublist)))
+# checklist = html.Div(
+#     [
+#         dbc.Label("Choose a bunch"),
+#         dbc.Checklist(
+#             options = skill_options,
+#             value = skill_options,
+#             id="checklist-input",
+#             inline=True,
+#         ),
+#     ]
+# )
 #Layout
 page_layout = dbc.Container(
     [
-        html.H3("Filter by:", className = "label"),
+
+        html.Div("My Projects", className = "page-title"),
+        html.Div("Fun things I did in my spare time", className = "page-description"),
+        html.Hr(),
+        html.Div("Filter by:", className = "page-section"),
         dmc.Grid([
-            dmc.Col(html.Div("Skill", className = 'label'), span = 1),
+            dmc.Col(html.Div("Skill", className = 'label'), span = 2),
             dmc.Col(dcc.Dropdown(
                 options = sorted(list(set(item for sublist in data['techs'].apply(eval) for item in sublist))),
                 multi=True,
                 id = 'skills-dd'
-                ), span = 5),
+                )),
                 ]),
+        # checklist,
         dmc.Grid([
-            dmc.Col(html.Div("Name", className = 'label'), span = 1),
+            dmc.Col(html.Div("Name", className = 'label'), span = 2),
             dmc.Col(dcc.Dropdown(
                 options = data['title'],
                 id = 'name-dd'
-                ), span = 5),
+                )),
             ]),
-        html.Div(id = 'project-result'),
+        html.Hr(),
+        html.Div(id = "project-number"),
+        dcc.Loading(html.Div(id = 'project-result'), color = "darkgoldenrod"),
     ],
     fluid=True,
     className="body-container",
@@ -55,16 +74,19 @@ def filter_project(filter_data):
 
 @callback(
     Output("project-result", 'children'),
+    Output("project-number", 'children'),
     Input("skills-dd", 'value'),
 )
 def filter_by_skills(skills):
     filter_data = data.copy()
     if skills:
         filter_data = filter_data[filter_data['techs'].apply(lambda x: set(skills).issubset(eval(x)))]
-    return filter_project(filter_data)
+    project_message = f"There are {len(filter_data)} results."
+    return filter_project(filter_data), project_message
 
 @callback(
     Output("project-result", 'children', allow_duplicate=True),
+    Output("project-number", 'children', allow_duplicate=True),
     Input("name-dd", 'value'),
     prevent_initial_call = True
 )
@@ -72,4 +94,5 @@ def filter_by_skills(name):
     filter_data = data.copy()
     if name:
         filter_data = filter_data[filter_data['title'].str.lower().str.contains(name.lower())]
-    return filter_project(filter_data)
+    project_message = f"There are {len(filter_data)} results."
+    return filter_project(filter_data), project_message

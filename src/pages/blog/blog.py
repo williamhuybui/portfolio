@@ -11,7 +11,8 @@ from helper import encode_image
 #Layout
 page_layout = dbc.Container(
     [
-        html.H1("Under construction")
+        html.Div("My Blogs", className = "page-title"),
+        html.H1("Under construction", className = "page-description")
     ],
     fluid=True,
     className="body-container",

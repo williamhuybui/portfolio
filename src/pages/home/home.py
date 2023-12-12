@@ -1,59 +1,58 @@
-from dash import html
+from dash import html, dcc
 import dash_bootstrap_components as dbc
+
 # Local
 from helper import encode_image
+from modules.utilities import containerize_projects
+from pages.home.chart import skill_radio_chart
 
-layout = dbc.Container(
+page_layout = dbc.Container(
     [
         dbc.Row(
             [
+                html.Div("About Me", className="page-title"),
+                html.Div("Hi, I'm Huy Bui. I work in data science and I love building things.", className ="page-description"),
+                html.Hr(),
                 dbc.Col(
                     [
-                        html.H3("About Me"),
-                        html.P(
-                            """As a Data Scientist, Mathematician, Full Stack Developer, and Investor, 
-                       I embody a rare combination of analytical acumen and technical expertise. 
-                       My work in data science involves sifting through complex data sets to c
-                       unearth insights, aided by my deep mathematical knowledge. Full stack 
-                       development allows me to seamlessly blend front-end creativity with 
-                       back-end functionality, creating comprehensive digital solutions. 
-                       Investing, on the other hand, taps into my strategic thinking, 
-                       enabling me to identify and capitalize on promising opportunities."""
-                        ),
-                        html.P(
-                            """My personality is a blend of competitiveness, meticulousness, 
-                        logical reasoning, and empathy. I thrive on challenges and hold myself 
-                        to high standards, always paying close attention to the finer details. 
-                        Logical thinking guides my professional approach, helping me solve problems 
-                        efficiently. Despite my competitive nature, I remain deeply empathetic, 
-                        always mindful of how my actions affect others. I believe in fair exchange 
-                        of value, hence I neither seek financial gain from advice nor offer it freely."""),
-                            html.P(
-                                """My passion lies in making a difference. I am driven not just by personal 
-                        or professional success, but by the opportunity to help those in need. 
-                       This desire to contribute positively to the world motivates my 
-                       every endeavor. I value meaningful interactions and always look 
-                       forward to hearing interesting stories that offer new perspectives. 
-                       These narratives not only enrich my understanding but also fuel my 
-                       continuous journey of learning and personal growth."""
-                            ),
-                    html.H3("My favorite things to do are:"),
-                    html.P("""Dota, Chess, and Reading"""),
-                    html.H3("Favorite programming language:"),
-                    html.P("""Python and Javascript"""),
-                    html.H3("Favorite quote:"),
-                    html.P("""“The only thing that is constant is change.” – Heraclitus"""),
-            ], width=8, lg =5),  # Half width on medium screens and up
+                        html.Div("What I do", className = "page-section"),
+                        html.Div("I have five years of experience as a Data Scientist, primarily in start-up settings, which I find thrilling. Tackling intricate issues and creating projects from the ground up is something I take great pleasure in. My expertise includes:",
+                                 className = "section-content"),
+                        # html.Ul([
+                        #     html.Li("Machine learning"),
+                        #     html.Li("Fullstack web application"),
+                        #     html.Li("Math"),
+                        #     html.Li("Experimentation"),
+                        # ]),
+                        dcc.Graph(figure = skill_radio_chart()),
+                        html.Hr(),
+                        html.Div("Learning All the Time", className = "page-section"),
+                        html.Div("I think we never stop learning new things. I feel happy when I learn something. But sometimes, I realize there's a lot I don't know. That's why I made this website. It helps me remember what I learn. It also lets me show others what I've done and what I've learned.", 
+                                 className = "section-content"),
+                        html.Img(src = encode_image("assets/images/leetcode.png"), 
+                                 className="home-image"),
+                        html.Hr(),
+                        html.Div("Away from the Computer", className = "page-section"),
+                        html.Div("When I'm not working, I might be in a coffee shop reading a book or playing Dota.",
+                                 className = "section-content"),
+                        html.Img(src = encode_image("assets/images/dota.png"), 
+                                 className="home-image"),
+                        html.Hr(),
+                        html.Div("Let's Talk", className = "page-section"),
+                        html.Div("If you want to know more about data science, see some web designs, or just learn about my journey, I'm happy you're here. Feel free to get in touch if you want to work together, talk, or even just chat about games or coffee.", 
+                                 className = "section-content"),
+                        
+            ], width=12, lg = 8),  # Half width on medium screens and up
                 dbc.Col(
                     [
-                        html.H3("Pics of Me"),
-                        html.Img(src = encode_image("assets/images/SteveBui.jpg"), 
+                        html.H3("Pics of Me", className = "page-section"),
+                        html.Img(src = encode_image("assets/images/SteveBui.png"), 
                                  className="home-image"),
                         html.Div(style={"height": "20px"}),
                         html.Img(src = encode_image("assets/images/kobe.jpg"), 
                                  className="home-image")
                     ],
-                    width=8, lg = 3,
+                    width = 12, lg = 4,
                     className="pics-container"
                 ),  # Half width on medium screens and up
             ]
@@ -62,4 +61,6 @@ layout = dbc.Container(
     fluid=True,
     className="body-container",
 )
+
+layout = containerize_projects(page_layout)
 
